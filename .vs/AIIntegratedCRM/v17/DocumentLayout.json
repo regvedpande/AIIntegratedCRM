@@ -1,0 +1,437 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|c:\\users\\regre\\documents\\aiintegratedcrm\\aiintegratedcrm\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|solutionrelative:aiintegratedcrm\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|c:\\users\\regre\\documents\\aiintegratedcrm\\aiintegratedcrm\\views\\customer\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|solutionrelative:aiintegratedcrm\\views\\customer\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|c:\\users\\regre\\documents\\aiintegratedcrm\\aiintegratedcrm\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|solutionrelative:aiintegratedcrm\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|c:\\users\\regre\\documents\\aiintegratedcrm\\aiintegratedcrm\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|solutionrelative:aiintegratedcrm\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|c:\\users\\regre\\documents\\aiintegratedcrm\\aiintegratedcrm\\aiintegratedcrm.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|solutionrelative:aiintegratedcrm\\aiintegratedcrm.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|c:\\users\\regre\\documents\\aiintegratedcrm\\aiintegratedcrm\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|solutionrelative:aiintegratedcrm\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|c:\\users\\regre\\documents\\aiintegratedcrm\\aiintegratedcrm\\views\\home\\privacy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|solutionrelative:aiintegratedcrm\\views\\home\\privacy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|c:\\users\\regre\\documents\\aiintegratedcrm\\aiintegratedcrm\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|solutionrelative:aiintegratedcrm\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|c:\\users\\regre\\documents\\aiintegratedcrm\\aiintegratedcrm\\views\\customer\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|solutionrelative:aiintegratedcrm\\views\\customer\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|c:\\users\\regre\\documents\\aiintegratedcrm\\aiintegratedcrm\\views\\customer\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|solutionrelative:aiintegratedcrm\\views\\customer\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|c:\\users\\regre\\documents\\aiintegratedcrm\\aiintegratedcrm\\views\\customer\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|solutionrelative:aiintegratedcrm\\views\\customer\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|c:\\users\\regre\\documents\\aiintegratedcrm\\aiintegratedcrm\\views\\customer\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|solutionrelative:aiintegratedcrm\\views\\customer\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|c:\\users\\regre\\documents\\aiintegratedcrm\\aiintegratedcrm\\services\\interfaces\\icustomerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|solutionrelative:aiintegratedcrm\\services\\interfaces\\icustomerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|c:\\users\\regre\\documents\\aiintegratedcrm\\aiintegratedcrm\\services\\interfaces\\iaiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|solutionrelative:aiintegratedcrm\\services\\interfaces\\iaiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|c:\\users\\regre\\documents\\aiintegratedcrm\\aiintegratedcrm\\services\\implementations\\customerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|solutionrelative:aiintegratedcrm\\services\\implementations\\customerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|c:\\users\\regre\\documents\\aiintegratedcrm\\aiintegratedcrm\\services\\implementations\\aiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|solutionrelative:aiintegratedcrm\\services\\implementations\\aiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|c:\\users\\regre\\documents\\aiintegratedcrm\\aiintegratedcrm\\repositories\\interfaces\\icustomerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|solutionrelative:aiintegratedcrm\\repositories\\interfaces\\icustomerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|c:\\users\\regre\\documents\\aiintegratedcrm\\aiintegratedcrm\\repositories\\implementations\\customerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|solutionrelative:aiintegratedcrm\\repositories\\implementations\\customerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|c:\\users\\regre\\documents\\aiintegratedcrm\\aiintegratedcrm\\models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|solutionrelative:aiintegratedcrm\\models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|c:\\users\\regre\\documents\\aiintegratedcrm\\aiintegratedcrm\\models\\viewmodels\\customerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|solutionrelative:aiintegratedcrm\\models\\viewmodels\\customerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|c:\\users\\regre\\documents\\aiintegratedcrm\\aiintegratedcrm\\models\\entities\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|solutionrelative:aiintegratedcrm\\models\\entities\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|c:\\users\\regre\\documents\\aiintegratedcrm\\aiintegratedcrm\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|solutionrelative:aiintegratedcrm\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|c:\\users\\regre\\documents\\aiintegratedcrm\\aiintegratedcrm\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|solutionrelative:aiintegratedcrm\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|c:\\users\\regre\\documents\\aiintegratedcrm\\aiintegratedcrm\\views\\shared\\_validationscriptspartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{EB90C4AE-3426-4DE9-A49D-76B0E1F24CF2}|AIIntegratedCRM\\AIIntegratedCRM.csproj|solutionrelative:aiintegratedcrm\\views\\shared\\_validationscriptspartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 14,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:3:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:4:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:5:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Privacy.cshtml",
+              "DocumentMoniker": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Views\\Home\\Privacy.cshtml",
+              "RelativeDocumentMoniker": "AIIntegratedCRM\\Views\\Home\\Privacy.cshtml",
+              "ToolTip": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Views\\Home\\Privacy.cshtml",
+              "RelativeToolTip": "AIIntegratedCRM\\Views\\Home\\Privacy.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-20T07:42:36.204Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Delete.cshtml",
+              "DocumentMoniker": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Views\\Customer\\Delete.cshtml",
+              "RelativeDocumentMoniker": "AIIntegratedCRM\\Views\\Customer\\Delete.cshtml",
+              "ToolTip": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Views\\Customer\\Delete.cshtml",
+              "RelativeToolTip": "AIIntegratedCRM\\Views\\Customer\\Delete.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-20T07:17:39.727Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Views\\Customer\\Details.cshtml",
+              "RelativeDocumentMoniker": "AIIntegratedCRM\\Views\\Customer\\Details.cshtml",
+              "ToolTip": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Views\\Customer\\Details.cshtml",
+              "RelativeToolTip": "AIIntegratedCRM\\Views\\Customer\\Details.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-20T07:17:14.955Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Views\\Customer\\Edit.cshtml",
+              "RelativeDocumentMoniker": "AIIntegratedCRM\\Views\\Customer\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Views\\Customer\\Edit.cshtml",
+              "RelativeToolTip": "AIIntegratedCRM\\Views\\Customer\\Edit.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-20T07:16:43.026Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Views\\Customer\\Index.cshtml",
+              "RelativeDocumentMoniker": "AIIntegratedCRM\\Views\\Customer\\Index.cshtml",
+              "ToolTip": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Views\\Customer\\Index.cshtml",
+              "RelativeToolTip": "AIIntegratedCRM\\Views\\Customer\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-20T07:15:02.453Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "AIIntegratedCRM\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "AIIntegratedCRM\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-20T07:25:15.594Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Program.cs",
+              "RelativeDocumentMoniker": "AIIntegratedCRM\\Program.cs",
+              "ToolTip": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Program.cs",
+              "RelativeToolTip": "AIIntegratedCRM\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T06:47:04.784Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AIIntegratedCRM.csproj",
+              "DocumentMoniker": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\AIIntegratedCRM.csproj",
+              "RelativeDocumentMoniker": "AIIntegratedCRM\\AIIntegratedCRM.csproj",
+              "ToolTip": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\AIIntegratedCRM.csproj",
+              "RelativeToolTip": "AIIntegratedCRM\\AIIntegratedCRM.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-05-20T07:03:39.097Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CustomerController.cs",
+              "DocumentMoniker": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Controllers\\CustomerController.cs",
+              "RelativeDocumentMoniker": "AIIntegratedCRM\\Controllers\\CustomerController.cs",
+              "ToolTip": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Controllers\\CustomerController.cs",
+              "RelativeToolTip": "AIIntegratedCRM\\Controllers\\CustomerController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAH4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T07:00:46.108Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Views\\Customer\\Create.cshtml",
+              "RelativeDocumentMoniker": "AIIntegratedCRM\\Views\\Customer\\Create.cshtml",
+              "ToolTip": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Views\\Customer\\Create.cshtml",
+              "RelativeToolTip": "AIIntegratedCRM\\Views\\Customer\\Create.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-20T07:15:30.012Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\appsettings.json",
+              "RelativeDocumentMoniker": "AIIntegratedCRM\\appsettings.json",
+              "ToolTip": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\appsettings.json",
+              "RelativeToolTip": "AIIntegratedCRM\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-20T07:29:23.72Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ICustomerService.cs",
+              "DocumentMoniker": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Services\\Interfaces\\ICustomerService.cs",
+              "RelativeDocumentMoniker": "AIIntegratedCRM\\Services\\Interfaces\\ICustomerService.cs",
+              "ToolTip": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Services\\Interfaces\\ICustomerService.cs",
+              "RelativeToolTip": "AIIntegratedCRM\\Services\\Interfaces\\ICustomerService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T07:09:36.185Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "IAIService.cs",
+              "DocumentMoniker": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Services\\Interfaces\\IAIService.cs",
+              "RelativeDocumentMoniker": "AIIntegratedCRM\\Services\\Interfaces\\IAIService.cs",
+              "ToolTip": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Services\\Interfaces\\IAIService.cs",
+              "RelativeToolTip": "AIIntegratedCRM\\Services\\Interfaces\\IAIService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T07:31:54.851Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "CustomerService.cs",
+              "DocumentMoniker": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Services\\Implementations\\CustomerService.cs",
+              "RelativeDocumentMoniker": "AIIntegratedCRM\\Services\\Implementations\\CustomerService.cs",
+              "ToolTip": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Services\\Implementations\\CustomerService.cs",
+              "RelativeToolTip": "AIIntegratedCRM\\Services\\Implementations\\CustomerService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T07:09:54.189Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "AIService.cs",
+              "DocumentMoniker": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Services\\Implementations\\AIService.cs",
+              "RelativeDocumentMoniker": "AIIntegratedCRM\\Services\\Implementations\\AIService.cs",
+              "ToolTip": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Services\\Implementations\\AIService.cs",
+              "RelativeToolTip": "AIIntegratedCRM\\Services\\Implementations\\AIService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T07:32:22.444Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "AIIntegratedCRM\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "AIIntegratedCRM\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-20T07:33:44.776Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "ICustomerRepository.cs",
+              "DocumentMoniker": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Repositories\\Interfaces\\ICustomerRepository.cs",
+              "RelativeDocumentMoniker": "AIIntegratedCRM\\Repositories\\Interfaces\\ICustomerRepository.cs",
+              "ToolTip": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Repositories\\Interfaces\\ICustomerRepository.cs",
+              "RelativeToolTip": "AIIntegratedCRM\\Repositories\\Interfaces\\ICustomerRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T07:08:28.237Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "CustomerRepository.cs",
+              "DocumentMoniker": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Repositories\\Implementations\\CustomerRepository.cs",
+              "RelativeDocumentMoniker": "AIIntegratedCRM\\Repositories\\Implementations\\CustomerRepository.cs",
+              "ToolTip": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Repositories\\Implementations\\CustomerRepository.cs",
+              "RelativeToolTip": "AIIntegratedCRM\\Repositories\\Implementations\\CustomerRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T07:08:40.848Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "ErrorViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Models\\ErrorViewModel.cs",
+              "RelativeDocumentMoniker": "AIIntegratedCRM\\Models\\ErrorViewModel.cs",
+              "ToolTip": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Models\\ErrorViewModel.cs",
+              "RelativeToolTip": "AIIntegratedCRM\\Models\\ErrorViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T07:42:18.157Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "Customer.cs",
+              "DocumentMoniker": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Models\\Entities\\Customer.cs",
+              "RelativeDocumentMoniker": "AIIntegratedCRM\\Models\\Entities\\Customer.cs",
+              "ToolTip": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Models\\Entities\\Customer.cs",
+              "RelativeToolTip": "AIIntegratedCRM\\Models\\Entities\\Customer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T07:01:47.19Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Data\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "AIIntegratedCRM\\Data\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Data\\ApplicationDbContext.cs",
+              "RelativeToolTip": "AIIntegratedCRM\\Data\\ApplicationDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T07:04:05.424Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "AIIntegratedCRM\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "AIIntegratedCRM\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T07:32:46.453Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "CustomerViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Models\\ViewModels\\CustomerViewModel.cs",
+              "RelativeDocumentMoniker": "AIIntegratedCRM\\Models\\ViewModels\\CustomerViewModel.cs",
+              "ToolTip": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Models\\ViewModels\\CustomerViewModel.cs",
+              "RelativeToolTip": "AIIntegratedCRM\\Models\\ViewModels\\CustomerViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T07:02:09.59Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "_ValidationScriptsPartial.cshtml",
+              "DocumentMoniker": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
+              "RelativeDocumentMoniker": "AIIntegratedCRM\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
+              "ToolTip": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
+              "RelativeToolTip": "AIIntegratedCRM\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-20T07:25:26.324Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:2:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
