@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5HIKH4dm6uI=",
+  "dgSpecHash": "L51Q1lpitX0=",
   "success": true,
-  "projectFilePath": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\AIIntegratedCRM.csproj",
+  "projectFilePath": "C:\\Users\\regre\\Downloads\\AIIntegratedCRM\\AIIntegratedCRM\\AIIntegratedCRM.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\regre\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\regre\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

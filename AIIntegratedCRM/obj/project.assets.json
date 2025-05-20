@@ -4022,11 +4022,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\AIIntegratedCRM.csproj",
+      "projectUniqueName": "C:\\Users\\regre\\Downloads\\AIIntegratedCRM\\AIIntegratedCRM\\AIIntegratedCRM.csproj",
       "projectName": "AIIntegratedCRM",
-      "projectPath": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\AIIntegratedCRM.csproj",
+      "projectPath": "C:\\Users\\regre\\Downloads\\AIIntegratedCRM\\AIIntegratedCRM\\AIIntegratedCRM.csproj",
       "packagesPath": "C:\\Users\\regre\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\regre\\Documents\\AIIntegratedCRM\\AIIntegratedCRM\\obj\\",
+      "outputPath": "C:\\Users\\regre\\Downloads\\AIIntegratedCRM\\AIIntegratedCRM\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
