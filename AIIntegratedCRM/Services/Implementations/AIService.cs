@@ -19,7 +19,7 @@ namespace AIIntegratedCRM.Services.Implementations
         public AIService(IConfiguration config)
         {
             // Use your provided API key here:
-            _apiKey = "AIzaSyBG46HbZ0O8Sp6UVHC7XaFvF3XxNbRi-2I";
+            _apiKey = "";
 
             // Gemini-2.0-flash endpoint from your curl command:
             _endpointUrl = $"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={_apiKey}";
