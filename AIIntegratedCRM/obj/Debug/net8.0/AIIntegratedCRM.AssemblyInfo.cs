@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AIIntegratedCRM")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d78d1042d5938581acc1969c198f31e816d3d2c0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a5999511c3303a6b3396b3ef72a313750c8e2edb")]
 [assembly: System.Reflection.AssemblyProductAttribute("AIIntegratedCRM")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AIIntegratedCRM")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
