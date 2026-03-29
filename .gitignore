@@ -1,0 +1,84 @@
+## .NET / C# gitignore
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.userprefs
+
+## Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]uild/
+[Ll]og/
+[Ll]ogs/
+
+## NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+!**/packages/repositories.config
+*.lock.json
+!packages.lock.json
+
+## Visual Studio
+.vs/
+*.rsuser
+.localhistory/
+*.VC.db
+*.VC.opendb
+*.sdf
+*.opensdf
+*.psess
+*.vsp
+*.vspx
+*.sap
+
+## Rider
+.idea/
+*.sln.iml
+
+## User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Publish profiles
+PublishScripts/
+*.pubxml
+*.azurePubxml
+
+## Build / log
+publish/
+[Pp]ublish/
+.publish/
+
+## Docker
+.dockerignore
+
+## Runtime
+*.exe
+*.pdb
+*.dll
+!tests/**
+
+## User secrets
+secrets.json
+appsettings.local.json
+
+## Environment
+.env
+*.env.local
+
+## OS generated
+.DS_Store
+Thumbs.db
+desktop.ini
