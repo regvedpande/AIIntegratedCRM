@@ -1,0 +1,150 @@
+@page "/ai-assistant"
+@attribute [Authorize]
+@inject IAIClientService AIService
+@using AIIntegratedCRM.Blazor.Services
+@using Microsoft.AspNetCore.Authorization
+
+<PageTitle>AI Assistant - AI CRM</PageTitle>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="mb-1 fw-bold"><i class="bi bi-robot me-2 text-primary"></i>AI Assistant</h4>
+        <p class="text-muted mb-0">Ask anything about your CRM data in natural language</p>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm" style="height:600px; display:flex; flex-direction:column;">
+            <div class="card-header bg-white border-0 py-3">
+                <div class="d-flex align-items-center gap-2">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width:36px;height:36px;background:linear-gradient(135deg,#667eea,#764ba2);">
+                        <i class="bi bi-robot text-white small"></i>
+                    </div>
+                    <div>
+                        <span class="fw-semibold">CRM AI Assistant</span>
+                        <span class="badge bg-success ms-2 rounded-pill" style="font-size:0.65rem;">Online</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body overflow-auto p-3" @ref="chatContainer" style="flex:1;">
+                @if (!messages.Any())
+                {
+                    <div class="text-center py-5 text-muted">
+                        <i class="bi bi-chat-square-text display-3 mb-3 d-block" style="opacity:0.3;"></i>
+                        <h6>Ask me anything about your CRM</h6>
+                        <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
+                            @foreach (var hint in hints)
+                            {
+                                <button class="btn btn-sm btn-outline-primary rounded-pill" @onclick="() => UseHint(hint)">@hint</button>
+                            }
+                        </div>
+                    </div>
+                }
+                @foreach (var msg in messages)
+                {
+                    <div class="d-flex @(msg.IsUser ? "justify-content-end" : "justify-content-start") mb-2">
+                        @if (!msg.IsUser)
+                        {
+                            <div class="rounded-circle d-flex align-items-center justify-content-center me-2 flex-shrink-0" style="width:28px;height:28px;background:linear-gradient(135deg,#667eea,#764ba2);">
+                                <i class="bi bi-robot text-white" style="font-size:0.7rem;"></i>
+                            </div>
+                        }
+                        <div class="chat-message @(msg.IsUser ? "user" : "ai")">
+                            @((MarkupString)msg.Content.Replace("\n", "<br/>"))
+                        </div>
+                    </div>
+                }
+                @if (isThinking)
+                {
+                    <div class="d-flex justify-content-start mb-2">
+                        <div class="chat-message ai">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="spinner-border spinner-border-sm text-primary"></div>
+                                <span class="text-muted small">AI is thinking...</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="card-footer bg-white border-top p-3">
+                <div class="input-group">
+                    <input @ref="inputRef" type="text" class="form-control border-end-0" placeholder="Ask about your leads, pipeline, revenue..."
+                           @bind="currentMessage" @bind:event="oninput" @onkeyup="HandleKeyUp" />
+                    <button class="btn btn-primary" @onclick="SendMessage" disabled="@(isThinking || string.IsNullOrWhiteSpace(currentMessage))">
+                        <i class="bi bi-send-fill"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="ai-panel mb-3">
+            <h6 class="fw-bold mb-3"><i class="bi bi-lightbulb me-2"></i>AI Capabilities</h6>
+            <ul class="list-unstyled mb-0">
+                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Query CRM data in plain English</li>
+                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Get pipeline insights &amp; metrics</li>
+                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Analyze lead quality trends</li>
+                <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Revenue forecasting questions</li>
+                <li><i class="bi bi-check-circle-fill text-success me-2"></i>Sales performance analysis</li>
+            </ul>
+        </div>
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <h6 class="fw-bold mb-3">Sample Questions</h6>
+                @foreach (var hint in hints)
+                {
+                    <button class="btn btn-sm btn-outline-secondary w-100 text-start mb-2" @onclick="() => UseHint(hint)">
+                        <i class="bi bi-arrow-right-circle me-2 text-primary"></i>@hint
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<ChatMessage> messages = new();
+    private string currentMessage = string.Empty;
+    private bool isThinking = false;
+    private ElementReference chatContainer;
+    private ElementReference inputRef;
+
+    private readonly string[] hints = new[]
+    {
+        "How many leads do I have this month?",
+        "What is my total pipeline value?",
+        "How many open support tickets?",
+        "Which stage has the most opportunities?",
+        "What is my win rate?"
+    };
+
+    private async Task HandleKeyUp(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" && !string.IsNullOrWhiteSpace(currentMessage))
+            await SendMessage();
+    }
+
+    private async Task SendMessage()
+    {
+        if (string.IsNullOrWhiteSpace(currentMessage)) return;
+        var userMsg = currentMessage;
+        messages.Add(new ChatMessage(userMsg, true));
+        currentMessage = string.Empty;
+        isThinking = true;
+        StateHasChanged();
+
+        var response = await AIService.AskQueryAsync(userMsg);
+        messages.Add(new ChatMessage(response ?? "Sorry, I couldn't process that request. Please try again.", false));
+        isThinking = false;
+        StateHasChanged();
+    }
+
+    private async Task UseHint(string hint)
+    {
+        currentMessage = hint;
+        await SendMessage();
+    }
+
+    private record ChatMessage(string Content, bool IsUser);
+}

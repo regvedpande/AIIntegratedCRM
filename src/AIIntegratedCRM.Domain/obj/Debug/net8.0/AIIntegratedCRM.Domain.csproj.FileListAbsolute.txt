@@ -1,0 +1,13 @@
+C:\Users\regre\Downloads\AIIntegratedCRM\.claude\worktrees\elegant-yonath\src\AIIntegratedCRM.Domain\bin\Debug\net8.0\AIIntegratedCRM.Domain.deps.json
+C:\Users\regre\Downloads\AIIntegratedCRM\.claude\worktrees\elegant-yonath\src\AIIntegratedCRM.Domain\bin\Debug\net8.0\AIIntegratedCRM.Domain.dll
+C:\Users\regre\Downloads\AIIntegratedCRM\.claude\worktrees\elegant-yonath\src\AIIntegratedCRM.Domain\bin\Debug\net8.0\AIIntegratedCRM.Domain.pdb
+C:\Users\regre\Downloads\AIIntegratedCRM\.claude\worktrees\elegant-yonath\src\AIIntegratedCRM.Domain\obj\Debug\net8.0\AIIntegratedCRM.Domain.csproj.AssemblyReference.cache
+C:\Users\regre\Downloads\AIIntegratedCRM\.claude\worktrees\elegant-yonath\src\AIIntegratedCRM.Domain\obj\Debug\net8.0\AIIntegratedCRM.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\regre\Downloads\AIIntegratedCRM\.claude\worktrees\elegant-yonath\src\AIIntegratedCRM.Domain\obj\Debug\net8.0\AIIntegratedCRM.Domain.AssemblyInfoInputs.cache
+C:\Users\regre\Downloads\AIIntegratedCRM\.claude\worktrees\elegant-yonath\src\AIIntegratedCRM.Domain\obj\Debug\net8.0\AIIntegratedCRM.Domain.AssemblyInfo.cs
+C:\Users\regre\Downloads\AIIntegratedCRM\.claude\worktrees\elegant-yonath\src\AIIntegratedCRM.Domain\obj\Debug\net8.0\AIIntegratedCRM.Domain.csproj.CoreCompileInputs.cache
+C:\Users\regre\Downloads\AIIntegratedCRM\.claude\worktrees\elegant-yonath\src\AIIntegratedCRM.Domain\obj\Debug\net8.0\AIIntegratedCRM.Domain.sourcelink.json
+C:\Users\regre\Downloads\AIIntegratedCRM\.claude\worktrees\elegant-yonath\src\AIIntegratedCRM.Domain\obj\Debug\net8.0\AIIntegratedCRM.Domain.dll
+C:\Users\regre\Downloads\AIIntegratedCRM\.claude\worktrees\elegant-yonath\src\AIIntegratedCRM.Domain\obj\Debug\net8.0\refint\AIIntegratedCRM.Domain.dll
+C:\Users\regre\Downloads\AIIntegratedCRM\.claude\worktrees\elegant-yonath\src\AIIntegratedCRM.Domain\obj\Debug\net8.0\AIIntegratedCRM.Domain.pdb
+C:\Users\regre\Downloads\AIIntegratedCRM\.claude\worktrees\elegant-yonath\src\AIIntegratedCRM.Domain\obj\Debug\net8.0\ref\AIIntegratedCRM.Domain.dll

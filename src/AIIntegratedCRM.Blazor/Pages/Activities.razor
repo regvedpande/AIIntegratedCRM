@@ -1,0 +1,278 @@
+@page "/activities"
+@attribute [Authorize]
+@inject IActivityService ActivityService
+@using AIIntegratedCRM.Blazor.Models
+@using AIIntegratedCRM.Blazor.Services
+@using Microsoft.AspNetCore.Authorization
+
+<PageTitle>Activities - AI CRM</PageTitle>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="mb-1 fw-bold">Activities</h4>
+        <p class="text-muted mb-0">Track calls, meetings, emails, and tasks</p>
+    </div>
+    <div class="d-flex gap-2 align-items-center">
+        <select class="form-select form-select-sm" style="width:160px;" @bind="typeFilter" @bind:after="OnFilterChange">
+            <option value="">All Types</option>
+            <option value="Call">Calls</option>
+            <option value="Email">Emails</option>
+            <option value="Meeting">Meetings</option>
+            <option value="Task">Tasks</option>
+            <option value="Note">Notes</option>
+        </select>
+        <select class="form-select form-select-sm" style="width:160px;" @bind="statusFilter" @bind:after="OnFilterChange">
+            <option value="">All Statuses</option>
+            <option value="pending">Pending</option>
+            <option value="completed">Completed</option>
+        </select>
+    </div>
+</div>
+
+@if (isLoading)
+{
+    <div class="text-center py-5">
+        <div class="spinner-border text-primary"></div>
+        <p class="text-muted mt-2">Loading activities...</p>
+    </div>
+}
+else if (filteredActivities.Count == 0)
+{
+    <div class="text-center py-5">
+        <i class="bi bi-calendar-check display-3 text-muted"></i>
+        <h5 class="mt-3 text-muted">No activities found</h5>
+        <p class="text-muted small">Activities will appear here as your team logs calls, meetings, and follow-ups.</p>
+    </div>
+}
+else
+{
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0 fw-semibold">
+                        <i class="bi bi-list-task me-2 text-primary"></i>Activity Feed
+                    </h6>
+                    <small class="text-muted">@filteredActivities.Count activities</small>
+                </div>
+                <div class="card-body p-0">
+                    @foreach (var activity in filteredActivities)
+                    {
+                        <div class="d-flex gap-3 p-3 border-bottom @(activity.IsCompleted ? "opacity-75" : "") hover-bg-light">
+                            <div class="flex-shrink-0 mt-1">
+                                <div class="rounded-circle d-flex align-items-center justify-content-center"
+                                     style="width:38px;height:38px;background:@GetTypeBg(activity.Type);">
+                                    <i class="@GetTypeIcon(activity.Type) text-white small"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <div class="fw-semibold @(activity.IsCompleted ? "text-decoration-line-through text-muted" : "")">
+                                            @activity.Subject
+                                        </div>
+                                        <div class="d-flex gap-2 mt-1 flex-wrap">
+                                            <span class="badge @GetTypeBadge(activity.Type) rounded-pill" style="font-size:0.7rem;">
+                                                @activity.Type
+                                            </span>
+                                            @if (!string.IsNullOrEmpty(activity.ContactName))
+                                            {
+                                                <span class="badge bg-secondary-subtle text-secondary rounded-pill" style="font-size:0.7rem;">
+                                                    <i class="bi bi-person me-1"></i>@activity.ContactName
+                                                </span>
+                                            }
+                                            @if (!string.IsNullOrEmpty(activity.AccountName))
+                                            {
+                                                <span class="badge bg-info-subtle text-info rounded-pill" style="font-size:0.7rem;">
+                                                    <i class="bi bi-building me-1"></i>@activity.AccountName
+                                                </span>
+                                            }
+                                        </div>
+                                        @if (!string.IsNullOrEmpty(activity.Description))
+                                        {
+                                            <p class="text-muted small mb-0 mt-1">@activity.Description</p>
+                                        }
+                                        @if (!string.IsNullOrEmpty(activity.AISummary))
+                                        {
+                                            <div class="mt-2 p-2 rounded-2" style="background:linear-gradient(135deg,#667eea11,#764ba211);border:1px solid #818cf855;">
+                                                <small class="text-muted">
+                                                    <i class="bi bi-robot me-1 text-primary"></i>
+                                                    <strong>AI Summary:</strong> @activity.AISummary
+                                                </small>
+                                            </div>
+                                        }
+                                    </div>
+                                    <div class="text-end flex-shrink-0 ms-3">
+                                        <small class="text-muted d-block">@activity.StartTime.ToString("MMM dd")</small>
+                                        <small class="text-muted d-block">@activity.StartTime.ToString("HH:mm")</small>
+                                        @if (activity.IsCompleted)
+                                        {
+                                            <span class="badge bg-success-subtle text-success rounded-pill mt-1" style="font-size:0.65rem;">
+                                                <i class="bi bi-check me-1"></i>Done
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning-subtle text-warning rounded-pill mt-1" style="font-size:0.65rem;">
+                                                <i class="bi bi-clock me-1"></i>Pending
+                                            </span>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                @if (activities is not null && activities.TotalPages > 1)
+                {
+                    <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+                        <small class="text-muted">Page @currentPage of @activities.TotalPages</small>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-outline-secondary" disabled="@(!activities.HasPreviousPage)" @onclick="PrevPage">
+                                <i class="bi bi-chevron-left"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-secondary" disabled="@(!activities.HasNextPage)" @onclick="NextPage">
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-white border-0 py-3">
+                    <h6 class="mb-0 fw-semibold"><i class="bi bi-bar-chart me-2 text-primary"></i>Activity Summary</h6>
+                </div>
+                <div class="card-body">
+                    @foreach (var type in new[] { "Call", "Email", "Meeting", "Task", "Note" })
+                    {
+                        var count = activities?.Items.Count(a => a.Type == type) ?? 0;
+                        var completed = activities?.Items.Count(a => a.Type == type && a.IsCompleted) ?? 0;
+                        if (count > 0)
+                        {
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="rounded-circle d-flex align-items-center justify-content-center"
+                                         style="width:30px;height:30px;background:@GetTypeBg(type);">
+                                        <i class="@GetTypeIcon(type) text-white" style="font-size:0.7rem;"></i>
+                                    </div>
+                                    <span class="small fw-semibold">@type</span>
+                                </div>
+                                <div class="text-end">
+                                    <span class="badge bg-secondary rounded-pill">@count</span>
+                                    @if (completed > 0)
+                                    {
+                                        <span class="badge bg-success-subtle text-success rounded-pill ms-1" style="font-size:0.65rem;">@completed done</span>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-0 py-3">
+                    <h6 class="mb-0 fw-semibold"><i class="bi bi-calendar-week me-2 text-primary"></i>Upcoming</h6>
+                </div>
+                <div class="card-body p-0">
+                    @{
+                        var upcoming = activities?.Items
+                            .Where(a => !a.IsCompleted && a.StartTime >= DateTime.UtcNow)
+                            .OrderBy(a => a.StartTime)
+                            .Take(5)
+                            .ToList() ?? new();
+                    }
+                    @if (upcoming.Count == 0)
+                    {
+                        <div class="text-center py-3 text-muted small p-3">No upcoming activities</div>
+                    }
+                    else
+                    {
+                        @foreach (var activity in upcoming)
+                        {
+                            <div class="d-flex gap-2 p-3 border-bottom">
+                                <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
+                                     style="width:28px;height:28px;background:@GetTypeBg(activity.Type);">
+                                    <i class="@GetTypeIcon(activity.Type) text-white" style="font-size:0.6rem;"></i>
+                                </div>
+                                <div class="flex-grow-1 min-width-0">
+                                    <div class="small fw-semibold text-truncate">@activity.Subject</div>
+                                    <div class="text-muted" style="font-size:0.7rem;">@activity.StartTime.ToString("MMM dd, HH:mm")</div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private PaginatedResult<ActivityDto>? activities;
+    private List<ActivityDto> filteredActivities = new();
+    private bool isLoading = true;
+    private int currentPage = 1;
+    private string typeFilter = string.Empty;
+    private string statusFilter = string.Empty;
+
+    protected override async Task OnInitializedAsync() => await LoadActivities();
+
+    private async Task LoadActivities()
+    {
+        isLoading = true;
+        activities = await ActivityService.GetActivitiesAsync(currentPage, 20);
+        ApplyFilters();
+        isLoading = false;
+    }
+
+    private void ApplyFilters()
+    {
+        if (activities is null) { filteredActivities = new(); return; }
+        var items = activities.Items.AsEnumerable();
+        if (!string.IsNullOrEmpty(typeFilter))
+            items = items.Where(a => a.Type == typeFilter);
+        if (statusFilter == "completed")
+            items = items.Where(a => a.IsCompleted);
+        else if (statusFilter == "pending")
+            items = items.Where(a => !a.IsCompleted);
+        filteredActivities = items.OrderByDescending(a => a.StartTime).ToList();
+    }
+
+    private async Task OnFilterChange() { ApplyFilters(); await Task.CompletedTask; }
+    private async Task PrevPage() { if (currentPage > 1) { currentPage--; await LoadActivities(); } }
+    private async Task NextPage() { currentPage++; await LoadActivities(); }
+
+    private static string GetTypeIcon(string type) => type switch
+    {
+        "Call" => "bi bi-telephone-fill",
+        "Email" => "bi bi-envelope-fill",
+        "Meeting" => "bi bi-camera-video-fill",
+        "Task" => "bi bi-check2-square",
+        "Note" => "bi bi-sticky-fill",
+        _ => "bi bi-calendar-event-fill"
+    };
+
+    private static string GetTypeBg(string type) => type switch
+    {
+        "Call" => "#10b981",
+        "Email" => "#4f46e5",
+        "Meeting" => "#f59e0b",
+        "Task" => "#06b6d4",
+        "Note" => "#8b5cf6",
+        _ => "#64748b"
+    };
+
+    private static string GetTypeBadge(string type) => type switch
+    {
+        "Call" => "bg-success-subtle text-success",
+        "Email" => "bg-primary-subtle text-primary",
+        "Meeting" => "bg-warning-subtle text-warning",
+        "Task" => "bg-info-subtle text-info",
+        "Note" => "bg-purple-subtle text-purple",
+        _ => "bg-secondary-subtle text-secondary"
+    };
+}

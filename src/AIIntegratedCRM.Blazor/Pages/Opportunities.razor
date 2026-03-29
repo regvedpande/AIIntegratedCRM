@@ -1,0 +1,227 @@
+@page "/opportunities"
+@attribute [Authorize]
+@inject IOpportunityService OpportunityService
+@using AIIntegratedCRM.Blazor.Models
+@using AIIntegratedCRM.Blazor.Services
+@using Microsoft.AspNetCore.Authorization
+
+<PageTitle>Opportunities - AI CRM</PageTitle>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="mb-1 fw-bold">Opportunities</h4>
+        <p class="text-muted mb-0">AI-powered pipeline management</p>
+    </div>
+    <div class="d-flex gap-2">
+        <div class="btn-group btn-group-sm">
+            <button class="btn @(viewMode == "list" ? "btn-primary" : "btn-outline-secondary")" @onclick='() => viewMode = "list"'>
+                <i class="bi bi-list-ul"></i>
+            </button>
+            <button class="btn @(viewMode == "kanban" ? "btn-primary" : "btn-outline-secondary")" @onclick='() => viewMode = "kanban"'>
+                <i class="bi bi-kanban"></i>
+            </button>
+        </div>
+        <button class="btn btn-primary" @onclick="() => showCreateModal = true">
+            <i class="bi bi-plus-lg me-2"></i>New Opportunity
+        </button>
+    </div>
+</div>
+
+@if (isLoading)
+{
+    <div class="text-center py-5"><div class="spinner-border text-primary"></div></div>
+}
+else if (viewMode == "kanban")
+{
+    <div class="d-flex gap-3 overflow-auto pb-3" style="min-height:500px;">
+        @foreach (var stage in stages)
+        {
+            var stageOpps = opportunities?.Items.Where(o => o.Stage == stage.Key).ToList() ?? new();
+            <div class="flex-shrink-0" style="width:240px;">
+                <div class="pipeline-stage mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="fw-semibold small">@stage.Value</span>
+                        <span class="badge bg-secondary">@stageOpps.Count</span>
+                    </div>
+                    <div class="text-primary fw-bold small">@stageOpps.Sum(o => o.Amount).ToString("C0")</div>
+                </div>
+                @foreach (var opp in stageOpps)
+                {
+                    <div class="kanban-card">
+                        <div class="fw-semibold small mb-1">@opp.Name</div>
+                        @if (!string.IsNullOrEmpty(opp.AccountName))
+                        {
+                            <div class="text-muted" style="font-size:0.75rem;">@opp.AccountName</div>
+                        }
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <span class="fw-bold text-primary small">@opp.Amount.ToString("C0")</span>
+                            <span class="badge ai-badge badge-score">@opp.AIProbability%</span>
+                        </div>
+                        @if (opp.ExpectedCloseDate.HasValue)
+                        {
+                            <div style="font-size:0.7rem;" class="text-muted mt-1">
+                                <i class="bi bi-calendar3 me-1"></i>@opp.ExpectedCloseDate.Value.ToString("MMM dd")
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="card border-0 shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Opportunity</th>
+                        <th>Account</th>
+                        <th>Stage</th>
+                        <th>Amount</th>
+                        <th>AI Win Prob.</th>
+                        <th>Close Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var opp in opportunities?.Items ?? new())
+                    {
+                        <tr>
+                            <td class="fw-semibold">@opp.Name</td>
+                            <td class="text-muted">@(opp.AccountName ?? "-")</td>
+                            <td><span class="badge @GetStageBadge(opp.Stage) rounded-pill">@opp.Stage</span></td>
+                            <td class="fw-bold">@opp.Amount.ToString("C0")</td>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="score-bar" style="width:60px;">
+                                        <div class="score-bar-fill" style="width:@opp.AIProbability%"></div>
+                                    </div>
+                                    <span class="badge ai-badge badge-score">@opp.AIProbability%</span>
+                                </div>
+                            </td>
+                            <td class="text-muted small">@(opp.ExpectedCloseDate?.ToString("MMM dd, yyyy") ?? "-")</td>
+                            <td>
+                                <select class="form-select form-select-sm" style="width:130px;" @onchange="(e) => ChangeStage(opp.Id, e.Value?.ToString())">
+                                    @foreach (var s in stages)
+                                    {
+                                        <option value="@s.Key" selected="@(opp.Stage == s.Key)">@s.Value</option>
+                                    }
+                                </select>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+@if (showCreateModal)
+{
+    <div class="modal show d-block" tabindex="-1" style="background:rgba(0,0,0,0.5)">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">New Opportunity</h5>
+                    <button class="btn-close" @onclick="() => showCreateModal = false"></button>
+                </div>
+                <div class="modal-body">
+                    @if (!string.IsNullOrEmpty(createError)) { <div class="alert alert-danger">@createError</div> }
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Name *</label>
+                        <input class="form-control" @bind="newOpp.Name" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Amount</label>
+                        <input class="form-control" type="number" @bind="newOpp.Amount" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Stage</label>
+                        <select class="form-select" @bind="newOpp.Stage">
+                            @foreach (var s in stages) { <option value="@s.Key">@s.Value</option> }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Expected Close Date</label>
+                        <input class="form-control" type="date" @bind="newOpp.ExpectedCloseDate" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Description</label>
+                        <textarea class="form-control" rows="2" @bind="newOpp.Description"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" @onclick="() => showCreateModal = false">Cancel</button>
+                    <button class="btn btn-primary" @onclick="CreateOpportunity" disabled="@isSaving">
+                        @if (isSaving) { <span class="spinner-border spinner-border-sm me-2"></span> }
+                        Create
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private PaginatedResult<OpportunityDto>? opportunities;
+    private bool isLoading = true;
+    private bool showCreateModal = false;
+    private bool isSaving = false;
+    private string viewMode = "kanban";
+    private CreateOpportunityRequest newOpp = new();
+    private string? createError;
+
+    private static readonly Dictionary<string, string> stages = new()
+    {
+        ["Prospecting"] = "Prospecting",
+        ["Qualification"] = "Qualification",
+        ["Proposal"] = "Proposal",
+        ["Negotiation"] = "Negotiation",
+        ["ClosedWon"] = "Closed Won",
+        ["ClosedLost"] = "Closed Lost"
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        opportunities = await OpportunityService.GetOpportunitiesAsync(1, 100);
+        isLoading = false;
+    }
+
+    private async Task CreateOpportunity()
+    {
+        isSaving = true;
+        createError = null;
+        var (success, error, _) = await OpportunityService.CreateOpportunityAsync(newOpp);
+        if (success)
+        {
+            showCreateModal = false;
+            newOpp = new();
+            opportunities = await OpportunityService.GetOpportunitiesAsync(1, 100);
+        }
+        else createError = error;
+        isSaving = false;
+    }
+
+    private async Task ChangeStage(Guid id, string? newStage)
+    {
+        if (!string.IsNullOrEmpty(newStage))
+        {
+            await OpportunityService.ChangeStageAsync(id, newStage);
+            opportunities = await OpportunityService.GetOpportunitiesAsync(1, 100);
+        }
+    }
+
+    private static string GetStageBadge(string stage) => stage switch
+    {
+        "Prospecting" => "bg-secondary",
+        "Qualification" => "bg-info",
+        "Proposal" => "bg-primary",
+        "Negotiation" => "bg-warning",
+        "ClosedWon" => "bg-success",
+        "ClosedLost" => "bg-danger",
+        _ => "bg-secondary"
+    };
+}

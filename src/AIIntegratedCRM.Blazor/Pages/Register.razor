@@ -1,0 +1,88 @@
+@page "/register"
+@layout EmptyLayout
+@inject IAuthService AuthService
+@inject NavigationManager Navigation
+@using AIIntegratedCRM.Blazor.Layout
+@using AIIntegratedCRM.Blazor.Models
+@using AIIntegratedCRM.Blazor.Services
+
+<div class="min-vh-100 d-flex align-items-center justify-content-center bg-light py-4">
+    <div class="card shadow-lg border-0" style="width:480px; border-radius:16px; overflow:hidden;">
+        <div class="card-header text-center py-4" style="background: linear-gradient(135deg, #4f46e5, #7c3aed);">
+            <h4 class="mb-1 text-white fw-bold"><i class="bi bi-robot me-2"></i>Create Account</h4>
+            <p class="mb-0 text-white-50 small">Start your free AI CRM trial</p>
+        </div>
+        <div class="card-body p-4">
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger"><i class="bi bi-exclamation-triangle me-2"></i>@errorMessage</div>
+            }
+            @if (success)
+            {
+                <div class="alert alert-success"><i class="bi bi-check-circle me-2"></i>Account created! <a href="/login">Sign in now</a></div>
+            }
+            else
+            {
+                <EditForm Model="model" OnValidSubmit="HandleRegister">
+                    <DataAnnotationsValidator />
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <label class="form-label fw-semibold">First Name</label>
+                            <InputText @bind-Value="model.FirstName" class="form-control" />
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label fw-semibold">Last Name</label>
+                            <InputText @bind-Value="model.LastName" class="form-control" />
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Work Email</label>
+                            <InputText @bind-Value="model.Email" class="form-control" type="email" />
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Password</label>
+                            <InputText @bind-Value="model.Password" class="form-control" type="password" />
+                            <small class="text-muted">Min 8 chars, 1 uppercase, 1 number</small>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Company Name</label>
+                            <InputText @bind-Value="model.TenantName" class="form-control" />
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Subdomain</label>
+                            <div class="input-group">
+                                <InputText @bind-Value="model.TenantSubdomain" class="form-control" placeholder="mycompany" />
+                                <span class="input-group-text">.aicrm.com</span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn w-100 py-2 fw-semibold text-white" style="background: linear-gradient(135deg, #4f46e5, #7c3aed);" disabled="@isLoading">
+                                @if (isLoading) { <span class="spinner-border spinner-border-sm me-2"></span> }
+                                Create Account
+                            </button>
+                        </div>
+                    </div>
+                </EditForm>
+                <div class="text-center mt-3">
+                    <small class="text-muted">Already have an account? <a href="/login">Sign in</a></small>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private RegisterRequest model = new();
+    private bool isLoading;
+    private bool success;
+    private string? errorMessage;
+
+    private async Task HandleRegister()
+    {
+        isLoading = true;
+        errorMessage = null;
+        var (ok, error) = await AuthService.RegisterAsync(model);
+        if (ok) success = true;
+        else errorMessage = error;
+        isLoading = false;
+    }
+}

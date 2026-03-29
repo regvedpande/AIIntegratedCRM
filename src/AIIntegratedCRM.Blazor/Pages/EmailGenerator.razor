@@ -1,0 +1,180 @@
+@page "/email-generator"
+@attribute [Authorize]
+@inject IAIClientService AIService
+@using AIIntegratedCRM.Blazor.Services
+@using Microsoft.AspNetCore.Authorization
+
+<PageTitle>Email Generator - AI CRM</PageTitle>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="mb-1 fw-bold"><i class="bi bi-envelope-plus me-2 text-primary"></i>AI Email Generator</h4>
+        <p class="text-muted mb-0">Generate professional sales emails with AI</p>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-5">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-0 py-3">
+                <h6 class="mb-0 fw-semibold">Email Settings</h6>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Purpose *</label>
+                    <select class="form-select" @bind="purpose">
+                        <option value="">Select purpose...</option>
+                        <option>Introduction / Cold Outreach</option>
+                        <option>Follow-up after meeting</option>
+                        <option>Proposal submission</option>
+                        <option>Deal closing</option>
+                        <option>Thank you / Post-sale</option>
+                        <option>Re-engagement</option>
+                        <option>Product update announcement</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Tone</label>
+                    <select class="form-select" @bind="tone">
+                        <option>Professional</option>
+                        <option>Friendly</option>
+                        <option>Formal</option>
+                        <option>Casual</option>
+                        <option>Persuasive</option>
+                        <option>Urgent</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Recipient Name *</label>
+                    <input class="form-control" @bind="recipientName" placeholder="John Smith" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Recipient Company</label>
+                    <input class="form-control" @bind="recipientCompany" placeholder="Acme Corp" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Your Name</label>
+                    <input class="form-control" @bind="senderName" placeholder="Your name" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Additional Context</label>
+                    <textarea class="form-control" rows="3" @bind="context" placeholder="Any specific details to include..."></textarea>
+                </div>
+                <button class="btn btn-ai w-100 py-2" @onclick="GenerateEmail" disabled="@(isGenerating || string.IsNullOrEmpty(purpose) || string.IsNullOrEmpty(recipientName))">
+                    @if (isGenerating)
+                    {
+                        <span class="spinner-border spinner-border-sm me-2"></span>
+                        <span>Generating...</span>
+                    }
+                    else
+                    {
+                        <i class="bi bi-robot me-2"></i>
+                        <span>Generate Email</span>
+                    }
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-7">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
+                <h6 class="mb-0 fw-semibold">Generated Email</h6>
+                @if (!string.IsNullOrEmpty(generatedEmail))
+                {
+                    <div class="d-flex gap-2">
+                        @if (copied)
+                        {
+                            <span class="badge bg-success rounded-pill px-3 py-2"><i class="bi bi-check me-1"></i>Copied!</span>
+                        }
+                        <button class="btn btn-sm btn-outline-secondary" @onclick="CopyToClipboard">
+                            <i class="bi bi-clipboard me-1"></i>Copy
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" @onclick="ClearEmail">
+                            <i class="bi bi-x-lg me-1"></i>Clear
+                        </button>
+                    </div>
+                }
+            </div>
+            <div class="card-body">
+                @if (string.IsNullOrEmpty(generatedEmail) && !isGenerating)
+                {
+                    <div class="text-center py-5 text-muted">
+                        <i class="bi bi-envelope display-3 mb-3 d-block" style="opacity:0.3;"></i>
+                        <p>Fill in the settings and click "Generate Email"<br/>to create a professional email with AI.</p>
+                        <div class="row g-2 mt-3 text-start">
+                            <div class="col-6">
+                                <div class="p-2 bg-light rounded-2 small">
+                                    <i class="bi bi-check-circle text-success me-1"></i>Personalized content
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-2 bg-light rounded-2 small">
+                                    <i class="bi bi-check-circle text-success me-1"></i>Tone matching
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-2 bg-light rounded-2 small">
+                                    <i class="bi bi-check-circle text-success me-1"></i>CTA optimized
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-2 bg-light rounded-2 small">
+                                    <i class="bi bi-check-circle text-success me-1"></i>Ready to send
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else if (isGenerating)
+                {
+                    <div class="text-center py-5">
+                        <div class="spinner-border text-primary mb-3" style="width:3rem;height:3rem;"></div>
+                        <p class="text-muted">AI is crafting your email...</p>
+                        <small class="text-muted">This may take a few seconds</small>
+                    </div>
+                }
+                else
+                {
+                    <div class="bg-light rounded-3 p-3" style="white-space:pre-wrap; font-family: inherit; line-height:1.7; font-size:0.9rem;">@generatedEmail</div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string purpose = string.Empty;
+    private string tone = "Professional";
+    private string recipientName = string.Empty;
+    private string recipientCompany = string.Empty;
+    private string senderName = string.Empty;
+    private string context = string.Empty;
+    private string generatedEmail = string.Empty;
+    private bool isGenerating = false;
+    private bool copied = false;
+
+    private async Task GenerateEmail()
+    {
+        isGenerating = true;
+        generatedEmail = string.Empty;
+        copied = false;
+        var result = await AIService.GenerateEmailAsync(purpose, recipientName, recipientCompany, senderName, tone);
+        generatedEmail = result ?? "Failed to generate email. Please try again.";
+        isGenerating = false;
+    }
+
+    private void ClearEmail()
+    {
+        generatedEmail = string.Empty;
+        copied = false;
+    }
+
+    private async Task CopyToClipboard()
+    {
+        // JS interop clipboard copy would go here in production
+        copied = true;
+        await Task.Delay(2000);
+        copied = false;
+        StateHasChanged();
+    }
+}

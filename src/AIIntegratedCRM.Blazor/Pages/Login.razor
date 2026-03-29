@@ -1,0 +1,70 @@
+@page "/login"
+@layout EmptyLayout
+@inject IAuthService AuthService
+@inject NavigationManager Navigation
+@using AIIntegratedCRM.Blazor.Layout
+@using AIIntegratedCRM.Blazor.Models
+@using AIIntegratedCRM.Blazor.Services
+
+<div class="min-vh-100 d-flex align-items-center justify-content-center bg-light">
+    <div class="card shadow-lg border-0" style="width:420px; border-radius:16px; overflow:hidden;">
+        <div class="card-header text-center py-4" style="background: linear-gradient(135deg, #4f46e5, #7c3aed);">
+            <h4 class="mb-1 text-white fw-bold"><i class="bi bi-robot me-2"></i>AI CRM</h4>
+            <p class="mb-0 text-white-50 small">Enterprise CRM Platform</p>
+        </div>
+        <div class="card-body p-4">
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger d-flex align-items-center" role="alert">
+                    <i class="bi bi-exclamation-triangle me-2"></i>@errorMessage
+                </div>
+            }
+            <EditForm Model="loginModel" OnValidSubmit="HandleLogin">
+                <DataAnnotationsValidator />
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Email Address</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                        <InputText @bind-Value="loginModel.Email" class="form-control" placeholder="admin@demo.com" />
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                        <InputText @bind-Value="loginModel.Password" type="password" class="form-control" placeholder="••••••••" />
+                    </div>
+                </div>
+                <button type="submit" class="btn w-100 py-2 fw-semibold text-white" style="background: linear-gradient(135deg, #4f46e5, #7c3aed);" disabled="@isLoading">
+                    @if (isLoading) { <span class="spinner-border spinner-border-sm me-2"></span> }
+                    <i class="bi bi-box-arrow-in-right me-1"></i> Sign In
+                </button>
+            </EditForm>
+            <div class="mt-3 p-3 bg-light rounded-3">
+                <small class="text-muted d-block fw-semibold mb-1"><i class="bi bi-info-circle me-1"></i>Demo Credentials</small>
+                <small class="text-muted">Email: <code>admin@demo.com</code><br/>Password: <code>Admin@123</code></small>
+            </div>
+            <div class="text-center mt-3">
+                <small class="text-muted">Don't have an account? <a href="/register">Sign up free</a></small>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private LoginRequest loginModel = new();
+    private bool isLoading;
+    private string? errorMessage;
+
+    private async Task HandleLogin()
+    {
+        isLoading = true;
+        errorMessage = null;
+        var (success, error) = await AuthService.LoginAsync(loginModel);
+        if (success)
+            Navigation.NavigateTo("/", forceLoad: true);
+        else
+            errorMessage = error ?? "Login failed. Please try again.";
+        isLoading = false;
+    }
+}

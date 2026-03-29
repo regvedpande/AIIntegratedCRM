@@ -1,0 +1,267 @@
+@page "/leads"
+@attribute [Authorize]
+@inject ILeadService LeadService
+@using AIIntegratedCRM.Blazor.Models
+@using AIIntegratedCRM.Blazor.Services
+@using Microsoft.AspNetCore.Authorization
+
+<PageTitle>Leads - AI CRM</PageTitle>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="mb-1 fw-bold">Leads</h4>
+        <p class="text-muted mb-0">Manage and score your sales leads with AI</p>
+    </div>
+    <button class="btn btn-primary" @onclick="() => showCreateModal = true">
+        <i class="bi bi-plus-lg me-2"></i>New Lead
+    </button>
+</div>
+
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
+                    <input type="text" class="form-control border-start-0" placeholder="Search leads..." @bind="searchTerm" @bind:event="oninput" @onkeyup="OnSearch" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" @bind="statusFilter" @bind:after="OnFilterChange">
+                    <option value="">All Statuses</option>
+                    <option value="0">New</option>
+                    <option value="1">Contacted</option>
+                    <option value="2">Qualified</option>
+                    <option value="3">Unqualified</option>
+                    <option value="4">Converted</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (isLoading)
+{
+    <div class="text-center py-5"><div class="spinner-border text-primary"></div></div>
+}
+else if (leads?.Items.Count == 0)
+{
+    <div class="text-center py-5">
+        <i class="bi bi-person-plus display-3 text-muted"></i>
+        <h5 class="mt-3 text-muted">No leads found</h5>
+        <button class="btn btn-primary mt-2" @onclick="() => showCreateModal = true">Add your first lead</button>
+    </div>
+}
+else
+{
+    <div class="card border-0 shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Company</th>
+                        <th>Source</th>
+                        <th>Status</th>
+                        <th>AI Score</th>
+                        <th>Created</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var lead in leads!.Items)
+                    {
+                        <tr>
+                            <td>
+                                <div class="fw-semibold">@lead.FullName</div>
+                                @if (!string.IsNullOrEmpty(lead.JobTitle))
+                                {
+                                    <small class="text-muted">@lead.JobTitle</small>
+                                }
+                            </td>
+                            <td>@lead.Email</td>
+                            <td>@(lead.Company ?? "-")</td>
+                            <td><span class="badge bg-secondary-subtle text-secondary rounded-pill">@lead.Source</span></td>
+                            <td><span class="badge @GetStatusClass(lead.Status) rounded-pill">@lead.Status</span></td>
+                            <td>
+                                @if (lead.AIScore > 0)
+                                {
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="score-bar" style="width:60px;">
+                                            <div class="score-bar-fill" style="width:@lead.AIScore%"></div>
+                                        </div>
+                                        <span class="badge ai-badge badge-score">@lead.AIScore</span>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-xs btn-outline-secondary btn-sm py-0" @onclick="() => ScoreLead(lead)">
+                                        <i class="bi bi-robot me-1"></i>Score
+                                    </button>
+                                }
+                            </td>
+                            <td class="text-muted small">@lead.CreatedAt.ToString("MMM dd, yyyy")</td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-danger py-0" @onclick="() => DeleteLead(lead.Id)" title="Delete">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @if (leads!.TotalPages > 1)
+        {
+            <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+                <small class="text-muted">Showing @leads.Items.Count of @leads.TotalCount leads</small>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-sm btn-outline-secondary" disabled="@(!leads.HasPreviousPage)" @onclick="PrevPage">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                    <span class="btn btn-sm btn-outline-primary disabled">@currentPage / @leads.TotalPages</span>
+                    <button class="btn btn-sm btn-outline-secondary" disabled="@(!leads.HasNextPage)" @onclick="NextPage">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@if (showCreateModal)
+{
+    <div class="modal show d-block" tabindex="-1" style="background:rgba(0,0,0,0.5)">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">Add New Lead</h5>
+                    <button type="button" class="btn-close" @onclick="() => showCreateModal = false"></button>
+                </div>
+                <div class="modal-body">
+                    @if (!string.IsNullOrEmpty(createError))
+                    {
+                        <div class="alert alert-danger">@createError</div>
+                    }
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">First Name *</label>
+                            <input class="form-control" @bind="newLead.FirstName" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Last Name *</label>
+                            <input class="form-control" @bind="newLead.LastName" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Email *</label>
+                            <input class="form-control" type="email" @bind="newLead.Email" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Phone</label>
+                            <input class="form-control" @bind="newLead.Phone" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Company</label>
+                            <input class="form-control" @bind="newLead.Company" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Job Title</label>
+                            <input class="form-control" @bind="newLead.JobTitle" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Source</label>
+                            <select class="form-select" @bind="newLead.Source">
+                                <option value="Website">Website</option>
+                                <option value="Referral">Referral</option>
+                                <option value="Email">Email</option>
+                                <option value="Phone">Phone</option>
+                                <option value="SocialMedia">Social Media</option>
+                                <option value="Advertisement">Advertisement</option>
+                                <option value="Event">Event</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Country</label>
+                            <input class="form-control" @bind="newLead.Country" />
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Notes</label>
+                            <textarea class="form-control" rows="3" @bind="newLead.Notes"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" @onclick="() => showCreateModal = false">Cancel</button>
+                    <button class="btn btn-primary" @onclick="CreateLead" disabled="@isSaving">
+                        @if (isSaving) { <span class="spinner-border spinner-border-sm me-2"></span> }
+                        Create Lead
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private PaginatedResult<LeadDto>? leads;
+    private bool isLoading = true;
+    private bool showCreateModal = false;
+    private bool isSaving = false;
+    private string searchTerm = string.Empty;
+    private string statusFilter = string.Empty;
+    private int currentPage = 1;
+    private CreateLeadRequest newLead = new();
+    private string? createError;
+
+    protected override async Task OnInitializedAsync() => await LoadLeads();
+
+    private async Task LoadLeads()
+    {
+        isLoading = true;
+        leads = await LeadService.GetLeadsAsync(currentPage, 20, searchTerm, statusFilter);
+        isLoading = false;
+    }
+
+    private async Task OnSearch() { currentPage = 1; await LoadLeads(); }
+    private async Task OnFilterChange() { currentPage = 1; await LoadLeads(); }
+    private async Task PrevPage() { if (currentPage > 1) { currentPage--; await LoadLeads(); } }
+    private async Task NextPage() { currentPage++; await LoadLeads(); }
+
+    private async Task CreateLead()
+    {
+        isSaving = true;
+        createError = null;
+        var (success, error, _) = await LeadService.CreateLeadAsync(newLead);
+        if (success)
+        {
+            showCreateModal = false;
+            newLead = new();
+            await LoadLeads();
+        }
+        else createError = error;
+        isSaving = false;
+    }
+
+    private async Task DeleteLead(Guid id)
+    {
+        await LeadService.DeleteLeadAsync(id);
+        await LoadLeads();
+    }
+
+    private async Task ScoreLead(LeadDto lead)
+    {
+        await LeadService.ScoreLeadAsync(lead.Id);
+        await LoadLeads();
+    }
+
+    private static string GetStatusClass(string status) => status switch
+    {
+        "New" => "bg-primary",
+        "Contacted" => "bg-info",
+        "Qualified" => "bg-success",
+        "Unqualified" => "bg-danger",
+        "Converted" => "bg-secondary",
+        _ => "bg-secondary"
+    };
+}

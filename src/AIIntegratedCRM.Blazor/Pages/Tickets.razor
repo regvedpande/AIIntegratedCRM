@@ -1,0 +1,406 @@
+@page "/tickets"
+@attribute [Authorize]
+@inject ITicketService TicketService
+@using AIIntegratedCRM.Blazor.Models
+@using AIIntegratedCRM.Blazor.Services
+@using Microsoft.AspNetCore.Authorization
+
+<PageTitle>Support Tickets - AI CRM</PageTitle>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="mb-1 fw-bold">Support Tickets</h4>
+        <p class="text-muted mb-0">Track and resolve customer support requests</p>
+    </div>
+    <button class="btn btn-primary" @onclick="() => showCreateModal = true">
+        <i class="bi bi-plus-lg me-2"></i>New Ticket
+    </button>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="text-muted mb-0 small fw-semibold">TOTAL</p>
+                    <h4 class="mb-0 fw-bold">@(tickets?.TotalCount ?? 0)</h4>
+                </div>
+                <div class="stat-icon bg-secondary-subtle"><i class="bi bi-ticket-perforated text-secondary"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="text-muted mb-0 small fw-semibold">OPEN</p>
+                    <h4 class="mb-0 fw-bold text-primary">@openCount</h4>
+                </div>
+                <div class="stat-icon bg-primary-subtle"><i class="bi bi-folder2-open text-primary"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="text-muted mb-0 small fw-semibold">HIGH PRIORITY</p>
+                    <h4 class="mb-0 fw-bold text-danger">@highPriorityCount</h4>
+                </div>
+                <div class="stat-icon bg-danger-subtle"><i class="bi bi-exclamation-triangle text-danger"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="text-muted mb-0 small fw-semibold">RESOLVED</p>
+                    <h4 class="mb-0 fw-bold text-success">@resolvedCount</h4>
+                </div>
+                <div class="stat-icon bg-success-subtle"><i class="bi bi-check-circle text-success"></i></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body py-3">
+        <div class="row g-3 align-items-center">
+            <div class="col-md-5">
+                <div class="input-group">
+                    <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
+                    <input type="text" class="form-control border-start-0" placeholder="Search tickets by subject, contact..."
+                           @bind="searchTerm" @bind:event="oninput" @onkeyup="ApplyFilters" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" @bind="statusFilter" @bind:after="OnStatusChange">
+                    <option value="">All Statuses</option>
+                    <option value="Open">Open</option>
+                    <option value="InProgress">In Progress</option>
+                    <option value="Resolved">Resolved</option>
+                    <option value="Closed">Closed</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select class="form-select" @bind="priorityFilter" @bind:after="OnStatusChange">
+                    <option value="">All Priorities</option>
+                    <option value="Critical">Critical</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (isLoading)
+{
+    <div class="text-center py-5">
+        <div class="spinner-border text-primary"></div>
+        <p class="text-muted mt-2">Loading tickets...</p>
+    </div>
+}
+else if (filteredTickets.Count == 0)
+{
+    <div class="text-center py-5">
+        <i class="bi bi-headset display-3 text-muted"></i>
+        <h5 class="mt-3 text-muted">No tickets found</h5>
+        <p class="text-muted small">
+            @(string.IsNullOrEmpty(searchTerm) && string.IsNullOrEmpty(statusFilter)
+                ? "Create a support ticket to start tracking customer issues."
+                : "Try adjusting your filters.")
+        </p>
+        <button class="btn btn-primary mt-2" @onclick="() => showCreateModal = true">
+            <i class="bi bi-plus-lg me-2"></i>Create Ticket
+        </button>
+    </div>
+}
+else
+{
+    <div class="card border-0 shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width:40%">Subject</th>
+                        <th>Contact</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Created</th>
+                        <th>Resolved</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ticket in filteredTickets)
+                    {
+                        <tr>
+                            <td>
+                                <div class="fw-semibold">@ticket.Subject</div>
+                                @if (!string.IsNullOrEmpty(ticket.Description))
+                                {
+                                    <small class="text-muted">
+                                        @(ticket.Description.Length > 80
+                                            ? ticket.Description[..80] + "..."
+                                            : ticket.Description)
+                                    </small>
+                                }
+                                @if (!string.IsNullOrEmpty(ticket.AccountName))
+                                {
+                                    <div>
+                                        <span class="badge bg-info-subtle text-info rounded-pill mt-1" style="font-size:0.65rem;">
+                                            <i class="bi bi-building me-1"></i>@ticket.AccountName
+                                        </span>
+                                    </div>
+                                }
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(ticket.ContactName))
+                                {
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="rounded-circle bg-secondary-subtle d-flex align-items-center justify-content-center"
+                                             style="width:28px;height:28px;font-size:0.65rem;font-weight:600;color:#64748b;">
+                                            @GetInitials(ticket.ContactName)
+                                        </div>
+                                        <span class="small">@ticket.ContactName</span>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span class="text-muted small">-</span>
+                                }
+                            </td>
+                            <td>
+                                <span class="badge @GetPriorityBadge(ticket.Priority) rounded-pill">
+                                    @if (ticket.Priority is "Critical" or "High")
+                                    {
+                                        <i class="bi bi-exclamation-triangle me-1"></i>
+                                    }
+                                    @ticket.Priority
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge @GetStatusBadge(ticket.Status) rounded-pill">
+                                    <i class="@GetStatusIcon(ticket.Status) me-1"></i>@ticket.Status
+                                </span>
+                            </td>
+                            <td class="text-muted small">@ticket.CreatedAt.ToString("MMM dd, yyyy")</td>
+                            <td class="text-muted small">
+                                @if (ticket.ResolvedAt.HasValue)
+                                {
+                                    <span class="text-success"><i class="bi bi-check me-1"></i>@ticket.ResolvedAt.Value.ToString("MMM dd")</span>
+                                }
+                                else
+                                {
+                                    <span class="text-warning small"><i class="bi bi-clock me-1"></i>Pending</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @if (tickets is not null && tickets.TotalPages > 1)
+        {
+            <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+                <small class="text-muted">Showing @filteredTickets.Count results</small>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-sm btn-outline-secondary" disabled="@(!tickets.HasPreviousPage)" @onclick="PrevPage">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                    <span class="btn btn-sm disabled">@currentPage / @tickets.TotalPages</span>
+                    <button class="btn btn-sm btn-outline-secondary" disabled="@(!tickets.HasNextPage)" @onclick="NextPage">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@if (showCreateModal)
+{
+    <div class="modal show d-block" tabindex="-1" style="background:rgba(0,0,0,0.5)">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-headset me-2 text-primary"></i>Create Support Ticket</h5>
+                    <button type="button" class="btn-close" @onclick="CloseModal"></button>
+                </div>
+                <div class="modal-body">
+                    @if (!string.IsNullOrEmpty(createError))
+                    {
+                        <div class="alert alert-danger d-flex align-items-center">
+                            <i class="bi bi-exclamation-triangle me-2"></i>@createError
+                        </div>
+                    }
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Subject *</label>
+                            <input class="form-control" @bind="newTicket.Subject" placeholder="Brief description of the issue" />
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Description *</label>
+                            <textarea class="form-control" rows="4" @bind="newTicket.Description"
+                                      placeholder="Provide detailed information about the issue, steps to reproduce, and expected behavior..."></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Priority</label>
+                            <select class="form-select" @bind="newTicket.Priority">
+                                <option value="Low">Low</option>
+                                <option value="Medium" selected>Medium</option>
+                                <option value="High">High</option>
+                                <option value="Critical">Critical</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Category</label>
+                            <select class="form-select" @bind="newTicket.Category">
+                                <option value="">Select category...</option>
+                                <option>Technical Issue</option>
+                                <option>Billing</option>
+                                <option>Feature Request</option>
+                                <option>Account Access</option>
+                                <option>General Inquiry</option>
+                                <option>Bug Report</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mt-3 p-3 bg-light rounded-3">
+                        <small class="text-muted">
+                            <i class="bi bi-robot me-1 text-primary"></i>
+                            <strong>AI-Powered:</strong> Our AI will automatically categorize and prioritize this ticket based on its content.
+                        </small>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button class="btn btn-secondary" @onclick="CloseModal">Cancel</button>
+                    <button class="btn btn-primary px-4" @onclick="CreateTicket" disabled="@isSaving">
+                        @if (isSaving) { <span class="spinner-border spinner-border-sm me-2"></span> }
+                        <i class="bi bi-send me-1"></i>Submit Ticket
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private PaginatedResult<SupportTicketDto>? tickets;
+    private List<SupportTicketDto> filteredTickets = new();
+    private bool isLoading = true;
+    private bool showCreateModal = false;
+    private bool isSaving = false;
+    private string searchTerm = string.Empty;
+    private string statusFilter = string.Empty;
+    private string priorityFilter = string.Empty;
+    private int currentPage = 1;
+    private CreateTicketRequest newTicket = new();
+    private string? createError;
+
+    private int openCount => tickets?.Items.Count(t => t.Status is "Open" or "InProgress") ?? 0;
+    private int highPriorityCount => tickets?.Items.Count(t => t.Priority is "High" or "Critical") ?? 0;
+    private int resolvedCount => tickets?.Items.Count(t => t.Status is "Resolved" or "Closed") ?? 0;
+
+    protected override async Task OnInitializedAsync() => await LoadTickets();
+
+    private async Task LoadTickets()
+    {
+        isLoading = true;
+        tickets = await TicketService.GetTicketsAsync(currentPage, 20, statusFilter.Length > 0 ? statusFilter : null);
+        ApplyFilters();
+        isLoading = false;
+    }
+
+    private void ApplyFilters()
+    {
+        if (tickets is null) { filteredTickets = new(); return; }
+        var items = tickets.Items.AsEnumerable();
+        if (!string.IsNullOrEmpty(searchTerm))
+            items = items.Where(t =>
+                t.Subject.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                (t.ContactName?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                (t.AccountName?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false));
+        if (!string.IsNullOrEmpty(priorityFilter))
+            items = items.Where(t => t.Priority == priorityFilter);
+        filteredTickets = items.ToList();
+    }
+
+    private async Task OnStatusChange()
+    {
+        currentPage = 1;
+        await LoadTickets();
+    }
+
+    private async Task PrevPage() { if (currentPage > 1) { currentPage--; await LoadTickets(); } }
+    private async Task NextPage() { currentPage++; await LoadTickets(); }
+
+    private async Task CreateTicket()
+    {
+        if (string.IsNullOrWhiteSpace(newTicket.Subject) || string.IsNullOrWhiteSpace(newTicket.Description))
+        {
+            createError = "Subject and description are required.";
+            return;
+        }
+
+        isSaving = true;
+        createError = null;
+        var (success, error, _) = await TicketService.CreateTicketAsync(newTicket);
+        if (success)
+        {
+            showCreateModal = false;
+            newTicket = new();
+            await LoadTickets();
+        }
+        else
+        {
+            createError = error ?? "Failed to create ticket.";
+        }
+        isSaving = false;
+    }
+
+    private void CloseModal()
+    {
+        showCreateModal = false;
+        createError = null;
+        newTicket = new();
+    }
+
+    private static string GetPriorityBadge(string priority) => priority switch
+    {
+        "Critical" => "bg-danger",
+        "High" => "bg-danger-subtle text-danger",
+        "Medium" => "bg-warning-subtle text-warning",
+        "Low" => "bg-secondary-subtle text-secondary",
+        _ => "bg-secondary-subtle text-secondary"
+    };
+
+    private static string GetStatusBadge(string status) => status switch
+    {
+        "Open" => "bg-primary-subtle text-primary",
+        "InProgress" => "bg-info-subtle text-info",
+        "Resolved" => "bg-success-subtle text-success",
+        "Closed" => "bg-secondary-subtle text-secondary",
+        _ => "bg-secondary-subtle text-secondary"
+    };
+
+    private static string GetStatusIcon(string status) => status switch
+    {
+        "Open" => "bi bi-folder2-open",
+        "InProgress" => "bi bi-arrow-repeat",
+        "Resolved" => "bi bi-check-circle",
+        "Closed" => "bi bi-archive",
+        _ => "bi bi-question-circle"
+    };
+
+    private static string GetInitials(string name)
+    {
+        if (string.IsNullOrEmpty(name)) return "?";
+        var parts = name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        return parts.Length >= 2
+            ? $"{parts[0][0]}{parts[^1][0]}".ToUpper()
+            : name[0].ToString().ToUpper();
+    }
+}

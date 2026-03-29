@@ -1,0 +1,286 @@
+@page "/contacts"
+@attribute [Authorize]
+@inject IContactService ContactService
+@using AIIntegratedCRM.Blazor.Models
+@using AIIntegratedCRM.Blazor.Services
+@using Microsoft.AspNetCore.Authorization
+
+<PageTitle>Contacts - AI CRM</PageTitle>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="mb-1 fw-bold">Contacts</h4>
+        <p class="text-muted mb-0">Manage your customer and prospect contacts</p>
+    </div>
+    <button class="btn btn-primary" @onclick="() => showCreateModal = true">
+        <i class="bi bi-plus-lg me-2"></i>New Contact
+    </button>
+</div>
+
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body py-3">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
+                    <input type="text" class="form-control border-start-0" placeholder="Search by name, email or company..."
+                           @bind="searchTerm" @bind:event="oninput" @onkeyup="OnSearch" />
+                </div>
+            </div>
+            <div class="col-md-3 d-flex align-items-center">
+                <small class="text-muted">
+                    @if (contacts is not null)
+                    {
+                        <span>@contacts.TotalCount contacts total</span>
+                    }
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (isLoading)
+{
+    <div class="text-center py-5">
+        <div class="spinner-border text-primary"></div>
+        <p class="text-muted mt-2">Loading contacts...</p>
+    </div>
+}
+else if (contacts?.Items.Count == 0)
+{
+    <div class="text-center py-5">
+        <i class="bi bi-people display-3 text-muted"></i>
+        <h5 class="mt-3 text-muted">No contacts found</h5>
+        <p class="text-muted small">@(string.IsNullOrEmpty(searchTerm) ? "Add your first contact to get started." : "Try a different search term.")</p>
+        <button class="btn btn-primary mt-2" @onclick="() => showCreateModal = true">
+            <i class="bi bi-plus-lg me-2"></i>Add Contact
+        </button>
+    </div>
+}
+else
+{
+    <div class="card border-0 shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Company</th>
+                        <th>Job Title</th>
+                        <th>Account</th>
+                        <th>Location</th>
+                        <th>Created</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var contact in contacts!.Items)
+                    {
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
+                                         style="width:34px;height:34px;background:linear-gradient(135deg,#667eea,#764ba2);font-size:0.75rem;color:white;font-weight:600;">
+                                        @GetInitials(contact.FullName)
+                                    </div>
+                                    <span class="fw-semibold">@contact.FullName</span>
+                                </div>
+                            </td>
+                            <td>
+                                <a href="mailto:@contact.Email" class="text-decoration-none text-muted">
+                                    <i class="bi bi-envelope me-1"></i>@contact.Email
+                                </a>
+                            </td>
+                            <td class="text-muted">
+                                @if (!string.IsNullOrEmpty(contact.Phone))
+                                {
+                                    <span><i class="bi bi-telephone me-1"></i>@contact.Phone</span>
+                                }
+                                else { <span class="text-muted">-</span> }
+                            </td>
+                            <td>@(contact.Company ?? "-")</td>
+                            <td class="text-muted small">@(contact.JobTitle ?? "-")</td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(contact.AccountName))
+                                {
+                                    <span class="badge bg-info-subtle text-info rounded-pill">
+                                        <i class="bi bi-building me-1"></i>@contact.AccountName
+                                    </span>
+                                }
+                                else { <span class="text-muted">-</span> }
+                            </td>
+                            <td class="text-muted small">
+                                @if (!string.IsNullOrEmpty(contact.City) || !string.IsNullOrEmpty(contact.Country))
+                                {
+                                    <span>@(contact.City != null ? contact.City + ", " : "")@contact.Country</span>
+                                }
+                                else { <span>-</span> }
+                            </td>
+                            <td class="text-muted small">@contact.CreatedAt.ToString("MMM dd, yyyy")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @if (contacts!.TotalPages > 1)
+        {
+            <div class="card-footer bg-white d-flex justify-content-between align-items-center py-2">
+                <small class="text-muted">Page @currentPage of @contacts.TotalPages (@contacts.TotalCount total)</small>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-sm btn-outline-secondary" disabled="@(!contacts.HasPreviousPage)" @onclick="PrevPage">
+                        <i class="bi bi-chevron-left"></i> Prev
+                    </button>
+                    <button class="btn btn-sm btn-outline-secondary" disabled="@(!contacts.HasNextPage)" @onclick="NextPage">
+                        Next <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@if (showCreateModal)
+{
+    <div class="modal show d-block" tabindex="-1" style="background:rgba(0,0,0,0.5)">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-person-plus me-2 text-primary"></i>Add New Contact</h5>
+                    <button type="button" class="btn-close" @onclick="CloseModal"></button>
+                </div>
+                <div class="modal-body">
+                    @if (!string.IsNullOrEmpty(createError))
+                    {
+                        <div class="alert alert-danger d-flex align-items-center">
+                            <i class="bi bi-exclamation-triangle me-2"></i>@createError
+                        </div>
+                    }
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">First Name *</label>
+                            <input class="form-control" @bind="newContact.FirstName" placeholder="John" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Last Name *</label>
+                            <input class="form-control" @bind="newContact.LastName" placeholder="Smith" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Email Address *</label>
+                            <input class="form-control" type="email" @bind="newContact.Email" placeholder="john@company.com" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Phone</label>
+                            <input class="form-control" @bind="newContact.Phone" placeholder="+1 (555) 000-0000" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Company</label>
+                            <input class="form-control" @bind="newContact.Company" placeholder="Acme Corp" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Job Title</label>
+                            <input class="form-control" @bind="newContact.JobTitle" placeholder="VP of Sales" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">City</label>
+                            <input class="form-control" @bind="newContact.City" placeholder="New York" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Country</label>
+                            <input class="form-control" @bind="newContact.Country" placeholder="United States" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button class="btn btn-secondary" @onclick="CloseModal">Cancel</button>
+                    <button class="btn btn-primary px-4" @onclick="CreateContact" disabled="@isSaving">
+                        @if (isSaving)
+                        {
+                            <span class="spinner-border spinner-border-sm me-2"></span>
+                        }
+                        <i class="bi bi-person-check me-1"></i>Create Contact
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private PaginatedResult<ContactDto>? contacts;
+    private bool isLoading = true;
+    private bool showCreateModal = false;
+    private bool isSaving = false;
+    private string searchTerm = string.Empty;
+    private int currentPage = 1;
+    private CreateContactRequest newContact = new();
+    private string? createError;
+
+    protected override async Task OnInitializedAsync() => await LoadContacts();
+
+    private async Task LoadContacts()
+    {
+        isLoading = true;
+        contacts = await ContactService.GetContactsAsync(currentPage, 20, searchTerm);
+        isLoading = false;
+    }
+
+    private async Task OnSearch()
+    {
+        currentPage = 1;
+        await LoadContacts();
+    }
+
+    private async Task PrevPage()
+    {
+        if (currentPage > 1) { currentPage--; await LoadContacts(); }
+    }
+
+    private async Task NextPage()
+    {
+        currentPage++;
+        await LoadContacts();
+    }
+
+    private async Task CreateContact()
+    {
+        if (string.IsNullOrWhiteSpace(newContact.FirstName) ||
+            string.IsNullOrWhiteSpace(newContact.LastName) ||
+            string.IsNullOrWhiteSpace(newContact.Email))
+        {
+            createError = "First name, last name, and email are required.";
+            return;
+        }
+
+        isSaving = true;
+        createError = null;
+        var (success, error, _) = await ContactService.CreateContactAsync(newContact);
+        if (success)
+        {
+            showCreateModal = false;
+            newContact = new();
+            await LoadContacts();
+        }
+        else
+        {
+            createError = error ?? "Failed to create contact.";
+        }
+        isSaving = false;
+    }
+
+    private void CloseModal()
+    {
+        showCreateModal = false;
+        createError = null;
+        newContact = new();
+    }
+
+    private static string GetInitials(string fullName)
+    {
+        if (string.IsNullOrEmpty(fullName)) return "?";
+        var parts = fullName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length >= 2)
+            return $"{parts[0][0]}{parts[^1][0]}".ToUpper();
+        return fullName.Length > 0 ? fullName[0].ToString().ToUpper() : "?";
+    }
+}
