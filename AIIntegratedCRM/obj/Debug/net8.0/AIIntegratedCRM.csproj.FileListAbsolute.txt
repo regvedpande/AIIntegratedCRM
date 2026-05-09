@@ -133,3 +133,16 @@ C:\Users\regre\Documents\AIIntegratedCRM\AIIntegratedCRM\bin\Debug\net8.0\AIInte
 C:\Users\regre\Documents\AIIntegratedCRM\AIIntegratedCRM\bin\Debug\net8.0\AIIntegratedCRM.pdb
 C:\Users\regre\Documents\AIIntegratedCRM\AIIntegratedCRM\obj\Debug\net8.0\AIIntegratedCRM.genruntimeconfig.cache
 C:\Users\regre\Documents\AIIntegratedCRM\AIIntegratedCRM\obj\Debug\net8.0\ref\AIIntegratedCRM.dll
+C:\Users\regre\Downloads\AIIntegratedCRM\AIIntegratedCRM\obj\Debug\net8.0\AIIntegratedCRM.csproj.AssemblyReference.cache
+C:\Users\regre\Downloads\AIIntegratedCRM\AIIntegratedCRM\obj\Debug\net8.0\rpswa.dswa.cache.json
+C:\Users\regre\Downloads\AIIntegratedCRM\AIIntegratedCRM\obj\Debug\net8.0\AIIntegratedCRM.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\regre\Downloads\AIIntegratedCRM\AIIntegratedCRM\obj\Debug\net8.0\AIIntegratedCRM.AssemblyInfoInputs.cache
+C:\Users\regre\Downloads\AIIntegratedCRM\AIIntegratedCRM\obj\Debug\net8.0\AIIntegratedCRM.AssemblyInfo.cs
+C:\Users\regre\Downloads\AIIntegratedCRM\AIIntegratedCRM\obj\Debug\net8.0\AIIntegratedCRM.csproj.CoreCompileInputs.cache
+C:\Users\regre\Downloads\AIIntegratedCRM\AIIntegratedCRM\obj\Debug\net8.0\AIIntegratedCRM.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\regre\Downloads\AIIntegratedCRM\AIIntegratedCRM\obj\Debug\net8.0\AIIntegratedCRM.RazorAssemblyInfo.cache
+C:\Users\regre\Downloads\AIIntegratedCRM\AIIntegratedCRM\obj\Debug\net8.0\AIIntegratedCRM.RazorAssemblyInfo.cs
+C:\Users\regre\Downloads\AIIntegratedCRM\AIIntegratedCRM\obj\Debug\net8.0\AIIntegratedCRM.sourcelink.json
+C:\Users\regre\Downloads\AIIntegratedCRM\AIIntegratedCRM\obj\Debug\net8.0\AIIntegratedCRM.dll
+C:\Users\regre\Downloads\AIIntegratedCRM\AIIntegratedCRM\obj\Debug\net8.0\refint\AIIntegratedCRM.dll
+C:\Users\regre\Downloads\AIIntegratedCRM\AIIntegratedCRM\obj\Debug\net8.0\AIIntegratedCRM.pdb
