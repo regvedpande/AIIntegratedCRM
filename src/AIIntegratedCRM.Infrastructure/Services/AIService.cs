@@ -206,8 +206,8 @@ public class AIService : IAIService
 
     public Task<float[]> GenerateEmbeddingAsync(string text, CancellationToken cancellationToken = default)
     {
-        // Semantic search embeddings would use a dedicated embedding model
-        // For production, integrate with OpenAI text-embedding-ada-002 or similar
+        // NOTE: Real semantic search requires a dedicated embedding model (e.g. text-embedding-3-small via OpenAI).
+        // This deterministic stub produces consistent but meaningless vectors — replace before enabling semantic search.
         var rng = new Random(text.GetHashCode());
         var embedding = Enumerable.Range(0, 1536).Select(_ => (float)(rng.NextDouble() * 2 - 1)).ToArray();
         return Task.FromResult(embedding);
