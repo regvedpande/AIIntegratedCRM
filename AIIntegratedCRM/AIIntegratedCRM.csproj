@@ -8,13 +8,13 @@
 
 	<ItemGroup>
 		<!-- Core EF package (for the DbContext base types) -->
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.5" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
 
 		<!-- SQL Server provider for EF Core (needed for UseSqlServer) -->
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.5" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
 
 		<!-- Tools package if you ever want to run migrations from the CLI -->
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.5">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
