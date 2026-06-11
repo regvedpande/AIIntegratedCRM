@@ -213,3 +213,20 @@ public class CreateTicketRequest
     public string Priority { get; set; } = "Medium";
     public string? Category { get; set; }
 }
+
+public class CreateActivityRequest
+{
+    public string Type { get; set; } = string.Empty;
+    public string Subject { get; set; } = string.Empty;
+    public string? Description { get; set; }
+    public DateTime StartTime { get; set; }
+    public Guid? ContactId { get; set; }
+    public Guid? AccountId { get; set; }
+}
+
+public class ErrorResponse
+{
+    [JsonPropertyName("error")]
+    public string Error { get; set; } = string.Empty;
+    public string? Message { get; set; }
+}
