@@ -1,16 +1,57 @@
-﻿@model IEnumerable<AIIntegratedCRM.Models.Entities.Customer>
+@model AIIntegratedCRM.Models.ViewModels.CustomerIndexViewModel
 
 @{
     ViewData["Title"] = "Customer Management";
 }
 
-<h2>Customer Management</h2>
-
-<p>
+<div class="d-flex align-items-center justify-content-between mb-3">
+    <div>
+        <h2 class="mb-1">Customer Management</h2>
+        <p class="text-muted mb-0">
+            Showing @Model.VisibleCustomers of @Model.TotalCustomers customers
+        </p>
+    </div>
     <a asp-action="Create" class="btn btn-success">
         <i class="fas fa-plus-circle"></i> New Customer
     </a>
-</p>
+</div>
+
+<form asp-action="Index" method="get" class="row g-2 align-items-end mb-3">
+    <div class="col-md-6">
+        <label for="searchTerm" class="form-label">Search customers</label>
+        <input id="searchTerm"
+               name="searchTerm"
+               value="@Model.SearchTerm"
+               class="form-control"
+               placeholder="Search by name, email, company, or phone" />
+    </div>
+    <div class="col-md-3">
+        <label for="sortBy" class="form-label">Sort by</label>
+        <select id="sortBy" name="sortBy" class="form-select">
+            <option value="name" selected="@(Model.SortBy == "name")">Name</option>
+            <option value="company" selected="@(Model.SortBy == "company")">Company</option>
+            <option value="newest" selected="@(Model.SortBy == "newest")">Newest</option>
+        </select>
+    </div>
+    <div class="col-md-3 d-flex gap-2">
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-search"></i> Apply
+        </button>
+        @if (Model.HasActiveFilters || Model.SortBy != "name")
+        {
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="fas fa-rotate-left"></i> Reset
+            </a>
+        }
+    </div>
+</form>
+
+@if (Model.HasActiveFilters)
+{
+    <div class="alert alert-info py-2">
+        Search results for <strong>@Model.SearchTerm</strong>
+    </div>
+}
 
 <table class="table table-striped table-bordered">
     <thead class="table-dark">
@@ -24,9 +65,9 @@
         </tr>
     </thead>
     <tbody>
-        @if (Model?.Any() == true)
+        @if (Model.Customers.Any())
         {
-            foreach (var cust in Model)
+            foreach (var cust in Model.Customers)
             {
                 <tr>
                     <td>@cust.FullName</td>
@@ -35,22 +76,15 @@
                     <td>@cust.Phone</td>
                     <td>@cust.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</td>
                     <td class="text-center">
-                        <!-- Details button -->
                         <a asp-action="Details" asp-route-id="@cust.Id" class="btn btn-info btn-sm me-1" title="Details">
                             <i class="fas fa-info-circle"></i>
                         </a>
-
-                        <!-- Edit button -->
                         <a asp-action="Edit" asp-route-id="@cust.Id" class="btn btn-warning btn-sm me-1" title="Edit">
                             <i class="fas fa-edit"></i>
                         </a>
-
-                        <!-- AI button -->
                         <button class="btn btn-primary btn-sm btn-ai me-1" data-id="@cust.Id" title="AI Summary">
                             <i class="fas fa-rocket"></i>
                         </button>
-
-                        <!-- Delete button -->
                         <a asp-action="Delete" asp-route-id="@cust.Id" class="btn btn-danger btn-sm" title="Delete">
                             <i class="fas fa-trash-alt"></i>
                         </a>
@@ -61,24 +95,22 @@
         else
         {
             <tr>
-                <td colspan="6" class="text-center text-muted">No customers found.</td>
+                <td colspan="6" class="text-center text-muted">
+                    @(Model.HasActiveFilters ? "No customers match your search." : "No customers found.")
+                </td>
             </tr>
         }
     </tbody>
 </table>
 
-<!-- ========================= -->
-<!-- AI Summary Modal -->
-<!-- ========================= -->
 <div class="modal fade" id="aiSummaryModal" tabindex="-1" aria-labelledby="aiSummaryModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">AI‑Generated Summary</h5>
+                <h5 class="modal-title" id="aiSummaryModalLabel">AI-Generated Summary</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <!-- While waiting for the response, we show “Generating...” -->
                 <pre id="aiSummaryText" class="p-2 bg-light" style="white-space: pre-wrap;">Generating...</pre>
             </div>
             <div class="modal-footer">
@@ -91,34 +123,27 @@
 </div>
 
 @section Scripts {
-    <!-- FontAwesome (for icons) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
             integrity="sha512-rXla7mH565p1tKpssMf315sPBea22ZRTzBjEGG+eQcMZlRcrQwyIV4RPTtxeha2SyKb3sJ16fNxDGUfmlXJY1w=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
-            // Initialize the Bootstrap modal:
             const aiModal = new bootstrap.Modal(document.getElementById('aiSummaryModal'));
 
-            // When an AI button is clicked:
             $(document).on('click', '.btn-ai', function () {
                 var id = $(this).data('id');
-                // Show the modal immediately, with placeholder text
                 $('#aiSummaryText').text('Generating...');
                 aiModal.show();
 
-                // Call the GenerateSummary endpoint
                 $.ajax({
                     url: `/Customer/GenerateSummary/${id}`,
                     type: 'GET',
                     dataType: 'json',
                     success: function (data) {
-                        // Populate the <pre> with the returned summary
                         $('#aiSummaryText').text(data.summary);
                     },
-                    error: function (xhr) {
-                        // Show an error if something went wrong
+                    error: function () {
                         $('#aiSummaryText').text('Error generating AI summary. Please try again.');
                     }
                 });

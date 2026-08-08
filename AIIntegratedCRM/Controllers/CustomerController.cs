@@ -1,32 +1,62 @@
-﻿using AIIntegratedCRM.Models.Entities;
+using AIIntegratedCRM.Models.Entities;
+using AIIntegratedCRM.Models.ViewModels;
 using AIIntegratedCRM.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AIIntegratedCRM.Controllers
 {
     public class CustomerController : Controller
     {
-        // 1. Declare the fields for injection
         private readonly ICustomerService _customerService;
         private readonly IAIService _aiService;
 
-        // 2. Constructor: receive those services via DI
         public CustomerController(ICustomerService customerService, IAIService aiService)
         {
             _customerService = customerService;
             _aiService = aiService;
         }
 
-        // ========================
-        // Standard CRUD Actions
-        // ========================
-
         // GET: /Customer/Index
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? searchTerm, string sortBy = CustomerSortOptions.Name)
         {
             var allCustomers = await _customerService.GetAllCustomersAsync();
-            return View(allCustomers);
+            var normalizedSearchTerm = searchTerm?.Trim();
+
+            var filteredCustomers = allCustomers;
+            if (!string.IsNullOrWhiteSpace(normalizedSearchTerm))
+            {
+                filteredCustomers = filteredCustomers.Where(customer =>
+                    Contains(customer.FullName, normalizedSearchTerm) ||
+                    Contains(customer.Email, normalizedSearchTerm) ||
+                    Contains(customer.Company, normalizedSearchTerm) ||
+                    Contains(customer.Phone, normalizedSearchTerm));
+            }
+
+            filteredCustomers = sortBy switch
+            {
+                CustomerSortOptions.Company => filteredCustomers
+                    .OrderBy(customer => customer.Company)
+                    .ThenBy(customer => customer.FullName),
+                CustomerSortOptions.Newest => filteredCustomers
+                    .OrderByDescending(customer => customer.CreatedAt)
+                    .ThenBy(customer => customer.FullName),
+                _ => filteredCustomers.OrderBy(customer => customer.FullName)
+            };
+
+            var visibleCustomers = filteredCustomers.ToList();
+            var model = new CustomerIndexViewModel
+            {
+                Customers = visibleCustomers,
+                SearchTerm = normalizedSearchTerm,
+                SortBy = sortBy,
+                TotalCustomers = allCustomers.Count(),
+                VisibleCustomers = visibleCustomers.Count
+            };
+
+            return View(model);
         }
 
         // GET: /Customer/Create
@@ -69,7 +99,6 @@ namespace AIIntegratedCRM.Controllers
             if (!exists)
                 return NotFound();
 
-            // Preserve CreatedAt inside model (it was posted as a hidden field)
             await _customerService.UpdateCustomerAsync(model);
             return RedirectToAction(nameof(Index));
         }
@@ -103,24 +132,21 @@ namespace AIIntegratedCRM.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // ========================
-        // AI / Gemini Integration
-        // ========================
-
         // GET: /Customer/GenerateSummary/{id}
         [HttpGet]
         public async Task<IActionResult> GenerateSummary(int id)
         {
-            // 1. Fetch the Customer by id (using the injected service)
             var customer = await _customerService.GetCustomerByIdAsync(id);
             if (customer == null)
                 return NotFound();
 
-            // 2. Call the AI service to generate a summary
             string summary = await _aiService.GenerateCustomerSummaryAsync(customer);
-
-            // 3. Return JSON containing that summary
             return Json(new { summary });
+        }
+
+        private static bool Contains(string? value, string searchTerm)
+        {
+            return value?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) == true;
         }
     }
 }
